@@ -3,10 +3,9 @@
 import PIL.Image
 import os
 import sys
+from subprocess import run
 
 palette = [
-    (255, 255, 255), # white
-    (0, 0, 0), # black
     (255, 0, 0), # red
     (255, 69, 0), # orangered
     (255, 165, 0), # orange
@@ -20,18 +19,30 @@ palette = [
     (0, 0, 255), # blue
     (75, 0, 130), # indigo
     (238, 130, 238), # violet
-    (255, 192, 203) # pink
+    (255, 192, 203), # pink
+    (255, 255, 255), # white
+    (0, 0, 0), # black
 ]
 
-pixels_per_frame = 1
 directory = 'timfrim'
 frame_format = f'{directory}/%06d.png'
 
+def ffmpegify_palette():
+    palette_image = PIL.Image.new('RGB', (256, 1), (255, 255, 255))
+    for i, color in enumerate(palette):
+        palette_image.putpixel((i, 0), color)
+    return palette_image
+
 def main():
+    pixels_per_frame = int(sys.argv[1]) if len(sys.argv) > 1 else 1
+
+    run(['rm', '-r', directory])
     os.mkdir(directory)
     canvas = PIL.Image.new('RGB', (128, 128), (255, 255, 255))
     pixels = 0
     frame = 0
+
+    ffmpegify_palette().save(directory+'/palette.png')
 
     for line in sys.stdin:
         x, y, color, _timestamp = map(int, line.rstrip().split(' '))
