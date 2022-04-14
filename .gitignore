@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Output
+timfrim/
+*.gif
+*.mp4
+
