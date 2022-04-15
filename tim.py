@@ -36,6 +36,7 @@ def ffmpegify_palette():
 def main():
     destination = sys.argv[1] if len(sys.argv) > 1 else 'timelapse.gif'
     pixels_per_frame = int(sys.argv[2]) if len(sys.argv) > 2 else 1
+    fps = int(sys.argv[3]) if len(sys.argv) > 3 else 50
 
     run(['rm', '-r', directory])
     os.mkdir(directory)
@@ -56,7 +57,7 @@ def main():
 
     palette_dir = directory+'/palette.png'
     ffmpegify_palette().save(palette_dir)
-    run(['ffmpeg', '-i', frame_format, '-i', palette_dir, '-filter_complex', 'paletteuse,fps=50', destination])
+    run(['ffmpeg', '-y', '-i', frame_format, '-i', palette_dir, '-filter_complex', f'paletteuse,fps={fps}', destination])
 
 if __name__ == '__main__':
     main()
