@@ -20,8 +20,8 @@ palette = [
     (75, 0, 130), # indigo
     (238, 130, 238), # violet
     (255, 192, 203), # pink
-    (255, 255, 255), # white
     (0, 0, 0), # black
+    (255, 255, 255), # white
 ]
 
 directory = 'timfrim'
